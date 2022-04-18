@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity @Table( name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = "title")})
