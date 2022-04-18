@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
@@ -28,14 +28,24 @@ public class CommentController {
     public ResponseEntity<List<CommentDto>> getCommentsByPostId(@PathVariable Long postId) {
         return ResponseEntity.ok(commentService.getCommentsByPostId(postId));
     }
+
+
     @GetMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> getCommentById(@PathVariable Long postId, @PathVariable Long commentId) {
 
         return ResponseEntity.ok(commentService.getCommentById(postId,commentId));
     }
+
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable Long postId, @PathVariable Long commentId,
                                                     @RequestBody  CommentDto commentDto) {
         return ResponseEntity.ok(commentService.updateComment(postId,commentId,commentDto));
+    }
+
+
+    @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        commentService.deleteComment(postId, commentId);
+        return ResponseEntity.ok("Comment deleted successfully");
     }
 }

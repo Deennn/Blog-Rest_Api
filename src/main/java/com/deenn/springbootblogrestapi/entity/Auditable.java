@@ -1,8 +1,8 @@
 package com.deenn.springbootblogrestapi.entity;
 
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,13 +14,12 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 
-//@MappedSuperclass
-//@EntityListeners(AuditingEntityListener.class)
-//@Getter @Setter @ToString
+
 
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Getter @Setter
 public abstract class Auditable {
 
     @CreatedBy
@@ -35,35 +34,4 @@ public abstract class Auditable {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
 }
