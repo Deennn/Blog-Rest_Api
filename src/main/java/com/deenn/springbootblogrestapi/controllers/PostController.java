@@ -2,12 +2,14 @@ package com.deenn.springbootblogrestapi.controllers;
 
 
 import com.deenn.springbootblogrestapi.dtos.PostDto;
+import com.deenn.springbootblogrestapi.dtos.PostResponse;
 import com.deenn.springbootblogrestapi.services.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import static com.deenn.springbootblogrestapi.utils.AppConstants.*;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -28,8 +30,11 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPost());
+    public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                                                    @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                    @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy,
+                                                    @RequestParam(value = "sortDir", defaultValue = DEFAULT_SORT_DIRECTION, required = false) String sortDir ) {
+        return ResponseEntity.ok(postService.getAllPost(pageNo,pageSize, sortBy, sortDir));
     }
 
     @GetMapping("/{id}")
