@@ -52,8 +52,6 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto getCommentById(Long postId, Long commentId) {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-
-
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment"
         , "id", commentId));
 
@@ -67,8 +65,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto updateComment(Long postId, Long commentId, CommentDto commentDto) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-
-
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment"
                 , "id", commentId));
 
@@ -81,8 +77,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setBody(commentDto.getBody());
 
         Comment updatedComment = commentRepository.save(comment);
-
-        return mapToDto(updatedComment);
+        return mapToDto(comment);
 
     }
 
