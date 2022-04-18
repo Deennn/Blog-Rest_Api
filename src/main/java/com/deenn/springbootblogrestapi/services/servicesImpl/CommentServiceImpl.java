@@ -3,11 +3,13 @@ package com.deenn.springbootblogrestapi.services.servicesImpl;
 import com.deenn.springbootblogrestapi.dtos.CommentDto;
 import com.deenn.springbootblogrestapi.entity.Comment;
 import com.deenn.springbootblogrestapi.entity.Post;
+import com.deenn.springbootblogrestapi.exceptions.BlogApiException;
 import com.deenn.springbootblogrestapi.exceptions.ResourceNotFoundException;
 import com.deenn.springbootblogrestapi.repositories.CommentRepository;
 import com.deenn.springbootblogrestapi.repositories.PostRepository;
 import com.deenn.springbootblogrestapi.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +46,20 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findByPostId(postId);
 
         return comments.stream().map(this::mapToDto).toList();
+    }
+
+    @Override
+    public CommentDto getCommentById(Long postId, Long commentId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment"
+        , "id", commentId));
+
+        if  (!comment.getPost().getId().equals(post.getId()))  {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "comment does not belong to post");
+        }
+      return mapToDto(comment);
+
     }
 
     private CommentDto mapToDto(Comment comment) {
